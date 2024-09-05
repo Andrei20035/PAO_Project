@@ -14,7 +14,7 @@ public class ProductRepo {
     }
 
     public void createProduct(Product product) {
-        String sql = "INSERT INTO Product (name, description, price, stockQuantity) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO product (name, description, price, stockQuantity) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, product.getName());
             stmt.setString(2, product.getDescription());
@@ -27,7 +27,7 @@ public class ProductRepo {
     }
 
     public Product getProductById(int id) {
-        String sql = "SELECT * FROM Product WHERE id = ?";
+        String sql = "SELECT * FROM product WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
@@ -42,7 +42,7 @@ public class ProductRepo {
 
     public List<Product> getAllProducts() {
         List<Product> products = new ArrayList<>();
-        String sql = "SELECT * FROM Product";
+        String sql = "SELECT * FROM product";
         try (Statement stmt = connection.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
@@ -69,7 +69,7 @@ public class ProductRepo {
     }
 
     public void deleteProduct(int id) {
-        String sql = "DELETE FROM Product WHERE id = ?";
+        String sql = "DELETE FROM product WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();

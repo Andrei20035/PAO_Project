@@ -79,20 +79,46 @@ public class Main {
             System.out.println("5. Inapoi la Meniul Principal");
             System.out.print("Alege o optiune: ");
             choice = scanner.nextInt();
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
+                    System.out.println("1. Utilizator Premium");
+                    System.out.println("2. Utilizator Normal");
+                    System.out.print("Alege tipul de utilizator: ");
+                    int userType = scanner.nextInt();
+                    scanner.nextLine();
+
                     System.out.print("Nume: ");
-                    String name = scanner.next();
+                    String name = scanner.nextLine();
                     System.out.print("Email: ");
-                    String email = scanner.next();
-                    System.out.print("Parola: ");
-                    String password = scanner.next();
-                    System.out.print("Adresa: ");
-                    String address = scanner.next();
-                    User user = new User(name, email, password, address);
-                    userRepository.createUser(user);
-                    AuditService.logAction("Adauga Utilizator");
+                    String email = scanner.nextLine();
+                    System.out.print("Parolă: ");
+                    String password = scanner.nextLine();
+                    System.out.print("Adresă: ");
+                    String address = scanner.nextLine();
+
+                    if (userType == 1) {
+                        double discountRate;
+                        while (true) {
+                            System.out.print("Rata de discount (intre 1% si 99%): ");
+                            discountRate = scanner.nextDouble();
+                            if (discountRate >= 1 && discountRate <= 99) {
+                                break;
+                            } else {
+                                System.out.println("Rata de discount trebuie să fie între 1% si 99%. Te rog sa incerci din nou.");
+                            }
+                        }
+                        PremiumUser premiumUser = new PremiumUser(name, email, password, address, discountRate);
+                        userRepository.createPremiumUser(premiumUser);
+                        AuditService.logAction("Adauga Utilizator Premium");
+                    } else if (userType == 2) {
+                        User user = new User(name, email, password, address);
+                        userRepository.createUser(user);
+                        AuditService.logAction("Adauga Utilizator Normal");
+                    } else {
+                        System.out.println("Tip de utilizator invalid. Te rog să incerci din nou.");
+                    }
                     break;
                 case 2:
                     for (User u : userRepository.getAllUsers()) {
@@ -103,16 +129,24 @@ public class Main {
                 case 3:
                     System.out.print("ID Utilizator: ");
                     int userId = scanner.nextInt();
+                    scanner.nextLine();
                     System.out.print("Nume: ");
-                    name = scanner.next();
+                    name = scanner.nextLine();
                     System.out.print("Email: ");
-                    email = scanner.next();
+                    email = scanner.nextLine();
                     System.out.print("Parola: ");
-                    password = scanner.next();
+                    password = scanner.nextLine();
                     System.out.print("Adresa: ");
-                    address = scanner.next();
-                    user = new User(userId, name, email, password, address);
-                    userRepository.updateUser(user);
+                    address = scanner.nextLine();
+                    System.out.print("Rata de discount (0 daca nu este premium): ");
+                    double discountRate = scanner.nextDouble();
+                    if (discountRate > 0) {
+                        PremiumUser premiumUser = new PremiumUser(userId, name, email, password, address, discountRate);
+                        userRepository.updatePremiumUser(premiumUser);
+                    } else {
+                        User user = new User(userId, name, email, password, address);
+                        userRepository.updateUser(user);
+                    }
                     AuditService.logAction("Actualizeaza Utilizator");
                     break;
                 case 4:
@@ -125,10 +159,13 @@ public class Main {
                     System.out.println("Inapoi la Meniul Principal...");
                     break;
                 default:
-                    System.out.println("Optiune invalida. Te rog să incerci din nou.");
+                    System.out.println("Optiune invalida. Te rog sa incerci din nou.");
             }
         } while (choice != 5);
     }
+
+
+
 
     private static void manageProducts(Scanner scanner) {
         ProductRepo productRepository = new ProductRepo(connection);

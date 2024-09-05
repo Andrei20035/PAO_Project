@@ -15,7 +15,7 @@ public class OrderItemRepo {
     }
 
     public void createOrderItem(OrderItem orderItem) {
-        String sql = "INSERT INTO OrderItem (productId, quantity, price) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO orderitem (productId, quantity, price) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, orderItem.getProduct().getId());
             stmt.setInt(2, orderItem.getQuantity());
@@ -27,7 +27,7 @@ public class OrderItemRepo {
     }
 
     public OrderItem getOrderItemById(int id) {
-        String sql = "SELECT * FROM OrderItem WHERE id = ?";
+        String sql = "SELECT * FROM orderitem WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
@@ -43,7 +43,7 @@ public class OrderItemRepo {
 
     public List<OrderItem> getAllOrderItems() {
         List<OrderItem> orderItems = new ArrayList<>();
-        String sql = "SELECT * FROM OrderItem";
+        String sql = "SELECT * FROM orderitem";
         try (Statement stmt = connection.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
@@ -57,7 +57,7 @@ public class OrderItemRepo {
     }
 
     public void updateOrderItem(OrderItem orderItem) {
-        String sql = "UPDATE OrderItem SET productId = ?, quantity = ?, price = ? WHERE id = ?";
+        String sql = "UPDATE orderitem SET productId = ?, quantity = ?, price = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, orderItem.getProduct().getId());
             stmt.setInt(2, orderItem.getQuantity());
@@ -70,7 +70,7 @@ public class OrderItemRepo {
     }
 
     public void deleteOrderItem(int id) {
-        String sql = "DELETE FROM OrderItem WHERE id = ?";
+        String sql = "DELETE FROM orderitem WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();

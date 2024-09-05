@@ -16,7 +16,7 @@ public class ReviewRepo {
     }
 
     public void createReview(Review review) {
-        String sql = "INSERT INTO Review (userId, productId, rating, comment) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO review (userId, productId, rating, comment) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, review.getUser().getId());
             stmt.setInt(2, review.getProduct().getId());
@@ -29,7 +29,7 @@ public class ReviewRepo {
     }
 
     public Review getReviewById(int id) {
-        String sql = "SELECT * FROM Review WHERE id = ?";
+        String sql = "SELECT * FROM review WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
@@ -46,7 +46,7 @@ public class ReviewRepo {
 
     public List<Review> getAllReviews() {
         List<Review> reviews = new ArrayList<>();
-        String sql = "SELECT * FROM Review";
+        String sql = "SELECT * FROM review";
         try (Statement stmt = connection.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
@@ -61,7 +61,7 @@ public class ReviewRepo {
     }
 
     public void updateReview(Review review) {
-        String sql = "UPDATE Review SET userId = ?, productId = ?, rating = ?, comment = ? WHERE id = ?";
+        String sql = "UPDATE review SET userId = ?, productId = ?, rating = ?, comment = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, review.getUser().getId());
             stmt.setInt(2, review.getProduct().getId());
@@ -75,7 +75,7 @@ public class ReviewRepo {
     }
 
     public void deleteReview(int id) {
-        String sql = "DELETE FROM Review WHERE id = ?";
+        String sql = "DELETE FROM review WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();

@@ -8,6 +8,11 @@ public class PremiumUser extends User {
         this.discountRate = discountRate;
     }
 
+    public PremiumUser(String name, String email, String address, String password, double discountRate) {
+        super(name, email, password, address);
+        this.discountRate = discountRate;
+    }
+
     public double getDiscountRate() {
         return discountRate;
     }

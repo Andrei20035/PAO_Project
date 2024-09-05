@@ -24,7 +24,8 @@ public class DatabaseConfig {
                     "name VARCHAR(255) NOT NULL, " +
                     "email VARCHAR(255) NOT NULL UNIQUE, " +
                     "password VARCHAR(255) NOT NULL, " +
-                    "address VARCHAR(255))";
+                    "address VARCHAR(255), " +
+                    "DiscountRate DECIMAL(5, 2) CHECK (DiscountRate BETWEEN 1.0 AND 99.0))";
             statement.executeUpdate(createUserTable);
 
             String createPremiumUserTable = "CREATE TABLE PremiumUser (" +
